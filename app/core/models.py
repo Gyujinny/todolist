@@ -4,7 +4,7 @@ Database models.
 import uuid
 import os
 
-# from django.conf import settings
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -12,15 +12,8 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 
+
 # vid 124
-def recipe_image_file_path(instance, filename):
-    """Generate file path for new recipe image"""
-    ext = os.path.splitext(filename)[1]
-    filename = f'{uuid.uuid4()}{ext}'
-
-    return os.path.join('uploads', 'recipe', filename)
-
-
 class UserManager(BaseUserManager):
     """Manager for users."""
 
@@ -56,18 +49,25 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
 
-# class TodoItem(models.Model):
-#     """TodoItem object."""
-#     user = models.ForeignKey(
-#         settings.AUTH_USER_MODEL,
-#         on_delete=models.CASCADE,
-#     )
-#     title = models.CharField(max_length=255)
-#     description = models.TextField(blank=True)
-#     duration_min = models.IntegerField()
-#     due_date = models.DateTimeField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#
-#     def __str__(self):
-#         return self.title
+class TodoItem(models.Model):
+    """TodoItem object."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    duration_min = models.IntegerField()
+    due_date = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+class TodoList(models.Model):
+    """TodoList object."""
+    todoitem = models.ForeignKey(TodoItem, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

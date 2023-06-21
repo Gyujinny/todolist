@@ -1,12 +1,12 @@
 """
 Tests for models.
 """
-# from datetime import date
+from datetime import date
 
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
-# from core import models
+from core import models
 
 
 def create_user(email='user@example.com', password='testpass123'):
@@ -56,18 +56,18 @@ class ModelTests(TestCase):
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
 
-    # def test_create_todoitem(self):
-    #     """Test creating a test_create_todo item is successful."""
-    #     user = get_user_model().objects.create_user(
-    #         'test@example.com',
-    #         'testpass123',
-    #     )
-    #     todo = models.TodoItem.objects.create(
-    #         user=user,
-    #         title='Sample Todo name',
-    #         duration_min=60,
-    #         due_date=date.today(),
-    #         description='Sample Todo description.',
-    #     )
-    #
-    #     self.assertEqual(str(todo), todo.title)
+    def test_create_todoitem(self):
+        """Test creating a Todoitem is successful."""
+        user = get_user_model().objects.create_user(
+            'test@example.com',
+            'testpass123',
+        )
+        todo = models.TodoItem.objects.create(
+            user=user,
+            title='Sample ToDo name',
+            duration_min=60,
+            due_date=date.today(),
+            description='Sample ToDo description.',
+        )
+
+        self.assertEqual(str(todo), todo.title)
